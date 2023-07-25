@@ -12,7 +12,7 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     model = Post
-    template_name='flatpages/post.html'  
+    template_name='flatpages/post_detail.html'  
     context_object_name= 'post'
 
     def get_context_data(self, kwargs):

@@ -47,6 +47,9 @@ class Post(models.Model):
         self.rating += 1
         self.save()
 
+    # def get_absolute_url(self):
+    #     return reverse('detail', args=[self.id])
+
 
     def dislike(self):
         self.rating -= 1

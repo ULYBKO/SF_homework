@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>{{ flatpage.title }}</title>
-</head>
-<body>
-    <h2>{{ flatpage.title }}</h2>
-    <hr>
-    <h3>Наши контакты:</h3>
-    {{ flatpage.content }}
-</body>
-</html>
+
+{% block title %}
+Products
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+   <h1>Все товары</h1>
+   <!-- Выводим товары, только если они есть с помощью тега if -->
+   {% if products %}
+       {{ products }}
+   {% else %}
+       <!-- Если товаров нет, говорим, что товаров нет ;) -->
+       <h2>Товаров нет!</h2>
+   {% endif %}
+{% endblock content %}

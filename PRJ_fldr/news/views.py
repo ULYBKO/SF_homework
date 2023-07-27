@@ -6,7 +6,7 @@ from datetime import datetime
 
 class PostList(ListView):
     model= Post
-    ordering= 'categoryType'
+    ordering= 'dateCreation'
     template_name = 'flatpages/post.html'
     context_object_name= 'posts'
 
@@ -15,8 +15,9 @@ class PostDetail(DetailView):
     template_name='flatpages/post_detail.html'  
     context_object_name= 'post'
 
-    def get_context_data(self, kwargs):
-        context = super().get_context_data(kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
         context['time_now'] = datetime.utcnow()
         return context
 

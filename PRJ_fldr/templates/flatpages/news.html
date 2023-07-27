@@ -1,16 +1,39 @@
+{% extends 'flatpages/default.html' %}
 
 {% block title %}
 Products
 {% endblock title %}
 
-<!-- В контенте на странице мы выводим все товары -->
 {% block content %}
    <h1>Все товары</h1>
-   <!-- Выводим товары, только если они есть с помощью тега if -->
+   <!-- Используем переданную из представления переменную time_now
+   и применяем к ней фильтр date. По назначению этот фильтр очень похож
+   на метод strftime у объекта datetime в Python — вывод времени
+   в указанном формате. -->
+   <h3>{{ time_now|date:'M d Y' }}</h3>
+   <hr>
    {% if products %}
-       {{ products }}
+       <table>
+           <tr>
+               <td>Название</td>
+               <td>Описание</td>
+               <td>Категория</td>
+               <td>Цена</td>
+               <td>Количество</td>
+           </tr>
+
+           <!-- {% for product in products %}
+           <tr>
+               <td>{{ product.name }}</td>
+               <td>{{ product.description|truncatewords:2 }}</td>
+               <td>{{ product.category.name }}</td>
+               <td>{{ product.price }}</td>
+               <td>{{ product.quantity }}</td>
+           </tr>
+           {% endfor %} -->
+
+       </table>
    {% else %}
-       <!-- Если товаров нет, говорим, что товаров нет ;) -->
        <h2>Товаров нет!</h2>
    {% endif %}
 {% endblock content %}

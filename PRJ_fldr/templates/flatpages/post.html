@@ -1,4 +1,5 @@
-<!-- {% extends 'flatpages/default.html' %}
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}!
 
 
 {% block title %}
@@ -8,26 +9,12 @@ Post
 
 {% block content %}
 {{ flatpage.content }}
-<h1>{{ posts }}</h1>
-{% endblock content %} -->
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
- 
-        {% load static %}
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- {% for post in posts %} -->
-        <p>{{post.title}} : {{post.dataCreations}} : {{post.author}}</p>
-        {{post.text}}
-
+<h3>Всего новостей: {{ posts|length }}</h3>
+        {% for post in posts %}
+        <p>{{post.title|censor }} : {{post.author}} : {{post.text| truncatechars:10}} : {{post.dateCreation}} </p>
+        
         {% endfor %}
-    </body>
-</html>
+{% endblock content %}
+
+
 

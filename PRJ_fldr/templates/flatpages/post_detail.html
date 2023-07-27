@@ -1,35 +1,14 @@
-<!-- {% extends 'flatpages/default.html' %}
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
 
-
+<!-- Название у нас будет Product -->
 {% block title %}
 Post
 {% endblock title %}
 
-
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}
-{{ flatpage.content }}
-<h1>{{ posts }}</h1>
-{% endblock content %} -->
+<h3>Сегодня: {{ time_now|date:'d M  Y' }}</h3>
 
-
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Bare - Start Bootstrap Template</title>
-        {% load static %}
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-    </head>
-    <body>
-        {% for p in post %}
-        <p>{{post.title}} : {{post.dataCreations}} : {{post.author}}</p>
-        {{post.text}}
-
-        {% endfor %}
-    </body>
-</html>
-
+<p>{{ post.title}} :  {{ post.author}} : {{ post.text }} : {{post.dateCreation | date:'d M Y'}}</p>
+{% endblock content %}

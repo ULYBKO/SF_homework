@@ -22,7 +22,7 @@ class Author(models.Model):
         self.ratingAuthor = pRat *3 + cRat
         self.save()
 
-class Category(models.Model):
+class Category(models.Model): 
     name = models.CharField(max_length=64, unique= True)
     
 

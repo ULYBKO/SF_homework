@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.shortcuts import reverse
+
 
 
 
@@ -36,7 +38,7 @@ class Post(models.Model):
         (NEWS, 'Новость'),
         (ARTICLE, 'Статья'),
     )
-    categoryType = models.CharField(max_length= 2, choices=CATEGORY_CHOICES, default=ARTICLE)
+    categoryType = models.CharField(max_length= 2, choices=CATEGORY_CHOICES, default=NEWS)
     dateCreation = models.DateTimeField(auto_now_add=True)
     postCategory = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=128)
@@ -47,8 +49,8 @@ class Post(models.Model):
         self.rating += 1
         self.save()
 
-    # def get_absolute_url(self):
-    #     return reverse('detail', args=[self.id])
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'pk': self.pk})
 
 
     def dislike(self):
@@ -85,3 +87,16 @@ class Comment(models.Model):
 
     def preview(self):
         return self.text[0:123] + '...'
+    
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )

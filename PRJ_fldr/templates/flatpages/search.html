@@ -11,32 +11,37 @@ Post
 {% block content %}
 <h3>Сегодня: {{ time_now|date:'d-M-Y' }}</h3>
 <hr>
+  <form action="" method="get">
+      
+       {{ filterset.form.as_p }}
+       
+       <input type="submit" value="Найти" />
+   </form>
+
 <h3>Всего новостей: {{ posts|length }}</h3>
 
 
 
-{% if posts %}
+{% if search %}
 <table>
         <tr>
         <td>Заголовок статьи</td>
         <td>Автор</td>
         <td>Краткое содержание</td>
         <td>Дата</td>
-        <td>Тип публикации</td>
         </tr>
-        {% for post in posts %}
+        {% for post in search %}
         <tr>        
         <td>{{post.title|censor | truncatechars:30}} </td> 
         <td>{{post.author.authorUser}}</td> 
         <td>{{post.text| truncatechars:20}}</td>        
         <td>{{post.dateCreation | date:'d.M.Y'}} </td>
-        <td>{{post.get_categoryType_display }} </td> 
         </tr>
         {% endfor %}
 
 </table>
 {% else %}
-<h2>Вдохновение кончилось!</h2>!
+<h2>Вдохновение кончилось!</h2>
 {% endif %}
 {# Информация о предыдущих страницах #}
 {% if page_obj.has_previous %}
@@ -60,6 +65,3 @@ Post
 {% endif %}
 
 {% endblock content %}
-
-
-

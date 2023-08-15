@@ -1,24 +1,46 @@
 import logging
-
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django.conf import settings
-from django.core.mail import mail_managers
+from django.core.mail import mail_managers, EmailMultiAlternatives
 from django.core.management.base import BaseCommand
 from django_apscheduler import util
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
-
-from PRJ_fldr.news.models import Post
+from django.template.loader import render_to_string
+import datetime
+import time
+from PRJ_fldr.news.models import Post, PostCategory, Author,Category, Subscription
 
 logger = logging.getLogger(__name__)
 
 
 def my_job():
-    products = Post.objects.order_by('price')[:3]
-    text = '\n'.join(['{} - {}'.format(p.name, p.price) for p in products])
-    mail_managers("Самые дешевые товары", text)
+    today = datetime.datetime.now()
+    last_week= today - datetime.timedelta(days=7)
+    posts = Post.objects.filter(dateCreation__gte=last_week)
+    categories = set(posts.calues_list('postCategory__name', flat=True))
+    subscribers = set(Category.objects.filter(name__in=categories).values_list('subscribers__email', flat=True))
+    html_content = render_to_string(
+        'daily_post.html',
+        {
+            'link': settings.SITE_URL,
+            'posts': posts,
 
+
+        }
+    )
+    
+    
+    msg = EmailMultiAlternatives(
+        subject="Posts for the week",
+        body='',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=subscribers
+    )
+    
+    msg.attach_alternative(html_content, 'text/html')
+    msg.send()
 
 @util.close_old_connections
 def delete_old_job_executions(max_age=604_800):

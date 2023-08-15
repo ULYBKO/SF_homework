@@ -157,8 +157,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = "soldat4ever@yandex.ru"
-EMAIL_HOST_PASSWORD = "X1mLYabc"
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 DEFAULT_FROM_EMAIL = "soldat4ever@yandex.ru"
+
+
+CELERY_BROKER_URL = f"redis://default:mqLiJmqiz59zG6oDYVAkMy7yXGKPFKX5@redis-14400.c265.us-east-1-2.ec2.cloud.redislabs.com:14400"
+CELERY_RESULT_BACKEND = f"redis://default:mqLiJmqiz59zG6oDYVAkMy7yXGKPFKX5@redis-14400.c265.us-east-1-2.ec2.cloud.redislabs.com:14400"
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

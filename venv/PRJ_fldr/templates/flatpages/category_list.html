@@ -1,0 +1,31 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Products
+{% endblock title %}
+
+{% block content %}
+   <h1>Все товары</h1>
+   <!-- Используем переданную из представления переменную time_now
+   и применяем к ней фильтр date. По назначению этот фильтр очень похож
+   на метод strftime у объекта datetime в Python — вывод времени
+   в указанном формате. -->
+   <h3>{{ time_now|date:'M d Y' }}</h3>
+   <hr>
+   {% if products %}
+       <table>
+           <tr>
+               <td>Название</td>
+               <td>Описание</td>
+               <td>Категория</td>
+               <td>Цена</td>
+               <td>Количество</td>
+           </tr>
+
+
+
+       </table>
+   {% else %}
+       <h2>Товаров нет!</h2>
+   {% endif %}
+{% endblock content %}

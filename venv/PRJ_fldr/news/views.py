@@ -17,7 +17,7 @@ class PostList(ListView):
     template_name = 'flatpages/post.html'# TODO SHUT
     context_object_name= 'posts'# FIXME ASFAS
     paginate_by = 20
-'''ASFAFSFASFASFASFAS'''
+
     
     def get_queryset(self):
        queryset = super().get_queryset()

@@ -170,3 +170,111 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 #logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'the_console_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default_formatter',
+            'filters': ['require_debug_true']
+        },
+        'the_warning_handler': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'formatter': 'warning_formatter_style',
+            'filters': ['require_debug_true']
+        },
+        'this_handler_works_if_error_critical': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'error_critical_formatter_style',
+            'filters': ['require_debug_true']
+        },
+        'handler_for_general_log_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'not_default_formatter',
+            'filters': ['require_debug_false']
+        },
+        'handler_for_errors_log_file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'error_critical_formatter_style',
+            'filters': ['require_debug_false']
+        },
+        'defender_log': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'not_default_formatter',
+            'filters': ['require_debug_false']
+        },
+        'send_admin_mail_if_error': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'error_critical_formatter_style',
+            'filters': ['require_debug_false']
+        }
+    },
+    'formatters': {
+        'default_formatter': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'warning_formatter_style': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        },
+        'error_critical_formatter_style': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+        },
+        'not_default_formatter': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+        },
+    },
+    'style': '{',
+    'loggers': {
+            'django': {
+                'handlers': ['the_console_handler', 'the_warning_handler', 'this_handler_works_if_error_critical', 'handler_for_general_log_file',],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+            'django.request': {
+                'handlers': ['handler_for_errors_log_file', 'send_admin_mail_if_error',],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+            'django.server': {
+                'handlers': ['handler_for_errors_log_file', 'send_admin_mail_if_error',],
+                'propagate': True,
+            },
+            'django.template': {
+                'handlers': ['handler_for_errors_log_file',],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+            'django.db.backends': {
+                'handlers': ['handler_for_errors_log_file',],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+            'django.security': {
+                'handlers': ['defender_log'],
+                'level': 'INFO',
+                'propagate': True,
+            },
+
+        },
+}
+
+#test just for fun
